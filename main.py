@@ -8,15 +8,14 @@ def merge_calendars():
     icals = [urllib.request.urlopen(url).read() for url in ical_urls]
 
     primary_calendar = Calendar.from_ical(icals[0])
-    primary_events = {(event.get("SUMMARY"), event.get("DTSTART")) for event in primary_calendar.walk('VEVENT')}
-
+    primary_events = {event.get("UID") for event in primary_calendar.walk('VEVENT')}
 
     for ical in icals[1:]:
 
         calendar = Calendar.from_ical(ical)
 
         for event in calendar.walk('VEVENT'):
-            event_key = (event.get("SUMMARY"), event.get("DTSTART"))
+            event_key = event.get("UID")
             if event_key not in primary_events:
                 primary_calendar.add_component(event)
 
@@ -35,3 +34,7 @@ def handler(event, context):
     }
 
     return res
+
+# handler("", "")
+
+
