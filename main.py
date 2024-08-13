@@ -1,9 +1,26 @@
 import urllib.request
 from icalendar import Calendar
+import boto3
+
+bucket = "merged-calendars"
+file_name = "merged.ics"
+calmb = 'https://calendar.google.com/calendar/ical/mbrinckley28%40gmail.com/private-1c315e7ab5bfdba8098e9e7e9deeb975/basic.ics'
+caljm = 'https://outlook.office365.com/owa/calendar/d987c4a1b51a46bfa121f7011bad537f@anu.edu.au/04587c14d8bd416483908af0c420e8a72683683245823628643/S-1-8-1070517825-400328655-2488652977-660441538/reachcalendar.ics'
+
+def upload_text_to_s3(text, bucket_name, object_name):
+    # Create an S3 client
+    s3_client = boto3.client('s3')
+
+    try:
+        # Upload the text as a file to S3
+        s3_client.put_object(Body=text, Bucket=bucket_name, Key=object_name)
+        print(f"Text uploaded to {bucket_name}/{object_name}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 
 def merge_calendars():
-    ical_urls = ['https://outlook.office365.com/owa/calendar/d38c400092da49bda10a53db4fc8e768@anu.edu.au/08158c6b25314ac28c26a4932e5081761205026017722985754/S-1-8-2432623921-427449214-986259244-1530808760/reachcalendar.ics',
-            'https://outlook.office365.com/owa/calendar/d987c4a1b51a46bfa121f7011bad537f@anu.edu.au/04587c14d8bd416483908af0c420e8a72683683245823628643/S-1-8-1070517825-400328655-2488652977-660441538/reachcalendar.ics']
+    ical_urls = [caljm, calmb]
 
     icals = [urllib.request.urlopen(url).read() for url in ical_urls]
 
@@ -24,16 +41,7 @@ def merge_calendars():
 
 def handler(event, context):
     ical = merge_calendars()
-
-    res = {
-        "statusCode": 200,
-        "headers": {
-            "Content-Type": "text/calendar"
-        },
-        "body": ical
-    }
-
-    return res
+    upload_text_to_s3(ical, bucket, file_name)
 
 # handler("", "")
 
