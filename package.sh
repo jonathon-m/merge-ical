@@ -1,3 +1,4 @@
+rm -rf package deployment.zip
 mkdir -p package
 pip install --target ./package -r requirements.txt
 cd package
