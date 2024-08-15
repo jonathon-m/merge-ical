@@ -38,7 +38,7 @@ def merge_calendars():
 
 
 def handler(event, context):
-    if hasattr(event, 'rawPath'):
+    if 'rawPath' in event:
         ical = s3_client.get_object(Bucket=bucket_name, Key=object_name)
         return {
             "statusCode": 200,
