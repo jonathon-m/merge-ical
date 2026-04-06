@@ -1,2 +1,6 @@
 package
 deployment.zip
+node_modules
+.sst
+dist
+*.js.map

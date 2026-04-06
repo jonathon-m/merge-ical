@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&display=swap");
+@import "tailwindcss";
+
+@theme {
+  /* Terracotta scale */
+  --color-terra-50:  #fdf4ec;
+  --color-terra-100: #f9e3cc;
+  --color-terra-200: #f2c99a;
+  --color-terra-300: #e8a568;
+  --color-terra-400: #d97b3a;
+  --color-terra-500: #c0572a;
+  --color-terra-600: #9c3d1e;
+  --color-terra-700: #7a2d14;
+  --color-terra-800: #5a1f0c;
+  --color-terra-900: #3a1206;
+
+  /* Ochre / gold scale */
+  --color-ochre-100: #fef3c7;
+  --color-ochre-200: #fde68a;
+  --color-ochre-300: #f0c040;
+  --color-ochre-400: #d4950a;
+  --color-ochre-500: #b07a08;
+
+  /* Parchment */
+  --color-parchment-50:  #fdfaf4;
+  --color-parchment-100: #f9f1e4;
+  --color-parchment-200: #f0e0c4;
+
+  /* Obsidian */
+  --color-obsidian-700: #4a2010;
+  --color-obsidian-800: #361408;
+  --color-obsidian-900: #2c1810;
+
+  --font-heading: "Cinzel", serif;
+}
