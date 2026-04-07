@@ -47,7 +47,7 @@ export const createGroupHandler: APIGatewayProxyHandlerV2 = async () => {
   const shareSecret = uuidv4();
   const group: CalendarGroup = {
     shareSecret,
-    createdAt: new Date().toISOString(),
+    dateCreated: new Date().toISOString(),
     feeds: [],
   };
   await putGroup(group);
@@ -63,7 +63,8 @@ export const getGroupHandler: APIGatewayProxyHandlerV2 = async (event) => {
 
   return json(200, {
     shareSecret: group.shareSecret,
-    createdAt: group.createdAt,
+    dateCreated: group.dateCreated,
+    dateLastAccessed: group.dateLastAccessed,
     feeds: toFeedSummaries(group.feeds),
   });
 };

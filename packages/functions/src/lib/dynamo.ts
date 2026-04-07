@@ -21,7 +21,8 @@ export interface Feed {
 
 export interface CalendarGroup {
   shareSecret: string;
-  createdAt: string;
+  dateCreated: string;
+  dateLastAccessed?: string;
   feeds: Feed[];
 }
 
@@ -60,6 +61,17 @@ export async function updateFeeds(
       Key: { shareSecret },
       UpdateExpression: "SET feeds = :feeds",
       ExpressionAttributeValues: { ":feeds": feeds },
+    })
+  );
+}
+
+export async function updateLastAccessed(shareSecret: string): Promise<void> {
+  await docClient.send(
+    new UpdateCommand({
+      TableName: tableName(),
+      Key: { shareSecret },
+      UpdateExpression: "SET dateLastAccessed = :now",
+      ExpressionAttributeValues: { ":now": new Date().toISOString() },
     })
   );
 }

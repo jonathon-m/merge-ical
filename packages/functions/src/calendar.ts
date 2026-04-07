@@ -1,5 +1,5 @@
 import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { getGroup } from "./lib/dynamo.js";
+import { getGroup, updateLastAccessed } from "./lib/dynamo.js";
 import { getCachedCalendar, putCachedCalendar } from "./lib/s3.js";
 import { mergeCalendars } from "./lib/mergeIcal.js";
 import { isValidShareSecret } from "./lib/validate.js";
@@ -21,6 +21,9 @@ export const getMergedCalendarHandler: APIGatewayProxyHandlerV2 = async (
     "Content-Type": "text/calendar; charset=utf-8",
     "Cache-Control": "public, max-age=1800",
   };
+
+  // Record access time without blocking the response
+  updateLastAccessed(shareSecret).catch(() => {});
 
   if (group.feeds.length === 0) {
     return {
